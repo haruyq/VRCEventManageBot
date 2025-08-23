@@ -1,1 +1,3 @@
 bot/configs/config.json
+*.pyc
+__pycache__/*
