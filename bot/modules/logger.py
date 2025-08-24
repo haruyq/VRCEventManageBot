@@ -18,6 +18,9 @@ class ColorFormatter(logging.Formatter):
         record.msg = f"{log_color}{record.msg}{self.RESET}"
         return super().format(record)
 
+cwd = os.getcwd()
+CONFIG_DIR = f"{cwd}/bot/configs"
+
 def set_Loglevel(level: str, logger: logging.Logger):
     if level == "DEBUG":
         return logger.setLevel(logging.DEBUG)
@@ -32,8 +35,7 @@ def Logger():
     handler = logging.StreamHandler(sys.stdout)
     handler.setFormatter(ColorFormatter("[%(asctime)s] [%(levelname)s] %(message)s", "%H:%M:%S"))
 
-    cwd = os.getcwd()
-    with open(f"{cwd}/bot/configs/config.json", "r", encoding="utf-8") as f:
+    with open(f"{CONFIG_DIR}/config.json", "r", encoding="utf-8") as f:
         LOGLEVEL = json.load(f)["loglevel"]
     
     logger: logging.Logger = logging.getLogger(__name__)

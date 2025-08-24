@@ -4,11 +4,14 @@ from discord.ext import commands
 import json
 import os
 import aiofiles.os
+from cryptography.fernet import Fernet
 
 from modules.logger import Logger
 
 Log = Logger()
 cwd = os.getcwd()
+
+CONFIG_DIR = f"{cwd}/bot/configs"
 
 class Bot(commands.Bot):
     def __init__(self):
@@ -29,7 +32,12 @@ class Bot(commands.Bot):
 
 bot = Bot()
 
-with open(f"{cwd}/bot/configs/config.json", "r", encoding="utf-8") as f:
-    token = json.load(f)["token"]
+with open(f"{CONFIG_DIR}/config.json", "r", encoding="utf-8") as f:
+    data = json.load(f)
 
-bot.run(token, log_handler=None)
+if not data.get("secret"):
+    data["secret"] = Fernet.generate_key().decode()
+    with open(f"{CONFIG_DIR}/config.json", "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
+
+bot.run(data["token"], log_handler=None)

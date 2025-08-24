@@ -1,4 +1,5 @@
 {
     "token": "YOUR_BOT_TOKEN",
-    "loglevel": "INFO"
+    "loglevel": "INFO",
+    "secret": ""
 }
