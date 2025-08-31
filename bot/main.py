@@ -7,6 +7,7 @@ import aiofiles.os
 from cryptography.fernet import Fernet
 
 from modules.logger import Logger
+from modules.db import GroupsDB, UserGroupsDB
 
 Log = Logger()
 cwd = os.getcwd()
@@ -19,6 +20,9 @@ class Bot(commands.Bot):
         super().__init__(command_prefix='!', intents=intents, help_command=None)
     
     async def setup_hook(self):
+        await GroupsDB().init_db()
+        await UserGroupsDB().init_db()
+        
         for folder in ("commands", "events"):
             for filename in await aiofiles.os.listdir(f"{cwd}/bot/{folder}"):
                 if not filename.endswith(".py"):

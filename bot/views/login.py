@@ -7,7 +7,7 @@ import aiofiles.os
 
 from modules.logger import Logger
 from modules.vrchat import Auth, AuthResult
-from views.twofa_modal import EmailTwoFAButton, TOTPTwoFAButton
+from views.twofa import EmailTwoFAButton, TOTPTwoFAButton
 
 Log = Logger()
 cwd = os.getcwd()
