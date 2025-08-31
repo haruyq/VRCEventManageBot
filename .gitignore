@@ -2,3 +2,4 @@ bot/configs/config.json
 *.pyc
 __pycache__/*
 *.enc
+*.db
