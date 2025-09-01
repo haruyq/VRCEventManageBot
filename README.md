@@ -17,7 +17,8 @@ pip install -r requirements.txt
 ````
 
 ## Usage
-
+1. config.example.jsonをconfig.jsonに置き換え、Botのtokenを記述してください。
+2. 以下のように実行します。
 ```bash
 python bot/main.py
 ```
