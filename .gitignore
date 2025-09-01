@@ -1,4 +1,5 @@
-config.json
+configs/config.json
+data/selected_groups.json
 *.pyc
 __pycache__/*
 *.enc
