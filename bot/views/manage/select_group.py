@@ -13,7 +13,7 @@ from bot.modules.db import GroupsDB
 Log = Logger()
 
 class Store:
-    @classmethod
+    @staticmethod
     def save_selected(guild_id: str, group_id: str):
         try:
             dir_path = f"{DATA_DIR}/select/{guild_id}"
@@ -24,6 +24,22 @@ class Store:
             return True
         except Exception as e:
             Log.error(f"選択されたグループの保存失敗: {e}")
+            return False
+
+    @staticmethod
+    def load_selected(guild_id: str):
+        try:
+            dir_path = f"{DATA_DIR}/select/{guild_id}"
+            if os.path.exists(dir_path):
+                file_path = f"{dir_path}/selected_group.json"
+                with open(file_path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                return data["group_id"]
+            else:
+                Log.debug("存在しないデータ読み込みをスキップ -> return False")
+                return False
+        except Exception as e:
+            Log.error(f"選択されたグループの読み込み失敗: {e}")
             return False
 
 class SelectGroupView(discord.ui.View):
