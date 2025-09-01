@@ -14,7 +14,7 @@ Log = Logger()
 
 class Store:
     @classmethod
-    def save_selected(guild_id, group_id: str):
+    def save_selected(guild_id: str, group_id: str):
         try:
             dir_path = f"{DATA_DIR}/select/{guild_id}"
             os.makedirs(dir_path, exist_ok=True)
@@ -111,7 +111,7 @@ class SelectGroupSelect(discord.ui.Select):
                 result = await db.set_role_group(interaction.guild.id, self.role_id, group_id)
                 scope_text = f"ロール <@&{self.role_id}> で"
             else:
-                result = Store.save_selected(interaction.guild.id, group_id)
+                result = Store.save_selected(str(interaction.guild.id), group_id)
                 scope_text = "サーバー全体で"
             
             if result:
