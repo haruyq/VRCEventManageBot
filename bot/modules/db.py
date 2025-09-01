@@ -4,13 +4,13 @@ import json
 
 from typing import Dict, List, Optional, Any
 
-from utils.logger import Logger
+from bot.utils.logger import Logger
+from bot.utils.core import DATA_DIR
 
 Log = Logger()
-cwd = os.getcwd()
-DATA_PATH = f"{cwd}/data"
-GROUPS_DB = f"{DATA_PATH}/groups.db"
-USER_GROUPS_DB = f"{DATA_PATH}/user_groups.db"
+
+GROUPS_DB = f"{DATA_DIR}/groups.db"
+USER_GROUPS_DB = f"{DATA_DIR}/user_groups.db"
 
 def filter(raw_data: Dict[str, Any]) -> Dict[str, Any]:
     Log.debug(f"Raw group data: {raw_data}")
@@ -27,7 +27,7 @@ def filter(raw_data: Dict[str, Any]) -> Dict[str, Any]:
 
 class GroupsDB:
     def __init__(self):
-        os.makedirs(DATA_PATH, exist_ok=True)
+        os.makedirs(DATA_DIR, exist_ok=True)
     
     async def init_db(self) -> None:
         async with aiosqlite.connect(GROUPS_DB) as db:
@@ -150,7 +150,7 @@ class GroupsDB:
 
 class UserGroupsDB:
     def __init__(self):
-        os.makedirs(DATA_PATH, exist_ok=True)
+        os.makedirs(DATA_DIR, exist_ok=True)
     
     async def init_db(self) -> None:
         async with aiosqlite.connect(USER_GROUPS_DB) as db:

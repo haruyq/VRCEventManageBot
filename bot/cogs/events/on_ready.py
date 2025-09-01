@@ -1,6 +1,6 @@
 from discord.ext import commands
 
-from utils.logger import Logger
+from bot.utils.logger import Logger
 
 Log = Logger()
 

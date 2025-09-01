@@ -6,10 +6,10 @@ import os
 import aiofiles.os
 from cryptography.fernet import Fernet
 
-from modules.db import GroupsDB, UserGroupsDB
+from bot.modules.db import GroupsDB, UserGroupsDB
 
-from utils.logger import Logger
-from utils.core import CONFIG_DIR
+from bot.utils.logger import Logger
+from bot.utils.core import CONFIG_DIR
 
 Log = Logger()
 cwd = os.getcwd()
@@ -23,11 +23,12 @@ class Bot(commands.Bot):
         await GroupsDB().init_db()
         await UserGroupsDB().init_db()
         
-        for folder in ("cogs/commands", "cogs/events"):
-            for filename in await aiofiles.os.listdir(f"{cwd}/bot/{folder}"):
+        for folder in ("commands", "events"):
+            path = f"{cwd}/bot/cogs/{folder}"
+            for filename in await aiofiles.os.listdir(path):
                 if not filename.endswith(".py"):
                     continue
-                ext = f"{folder}.{filename[:-3]}"
+                ext = f"bot.cogs.{folder}.{filename[:-3]}"
                 try:
                     await self.load_extension(ext)
                     Log.info(f"[{ext}] ロード成功")

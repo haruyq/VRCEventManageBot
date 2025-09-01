@@ -5,10 +5,10 @@ from vrchatapi.models.two_factor_auth_code import TwoFactorAuthCode
 from vrchatapi.models.two_factor_email_code import TwoFactorEmailCode
 
 # local import
-from store import Store
+from bot.services.vrchat.store import Store
 
 # utils
-from utils.logger import Logger
+from bot.utils.logger import Logger
 
 Log = Logger()
 

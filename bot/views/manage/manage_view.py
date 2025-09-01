@@ -1,10 +1,10 @@
 import discord
 
-from modules.db import GroupsDB
+from bot.modules.db import GroupsDB
 
-from manage.add_group import AddGroupModal
-from manage.delete_group import DeleteGroupView
-from manage.select_group import SelectGroupView
+from bot.views.manage.add_group import AddGroupModal
+from bot.views.manage.delete_group import DeleteGroupView
+from bot.views.manage.select_group import SelectGroupView
 
 class ManageView(discord.ui.View):
     def __init__(self):

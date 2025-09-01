@@ -1,0 +1,12 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: bot.main",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "bot.main",
+            "justMyCode": true
+        }
+    ]
+}

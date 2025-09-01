@@ -4,10 +4,10 @@ import discord
 
 from typing import Dict, Any
 
-from modules.db import GroupsDB
+from bot.modules.db import GroupsDB
 
-from services.vrchat.group import Group
-from services.vrchat.store import Store
+from bot.services.vrchat.group import Group
+from bot.services.vrchat.store import Store
 
 class AddGroupModal(discord.ui.Modal, title="グループ追加"):
     def __init__(self):

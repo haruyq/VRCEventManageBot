@@ -9,12 +9,10 @@ import json
 from cryptography.fernet import Fernet
 from http.cookiejar import Cookie
 
-# local import
-from auth import AuthResult
-
 # utils
-from utils.core import CONFIG_DIR, LOGINDATA_DIR
-from utils.logger import Logger
+from bot.utils.core import CONFIG_DIR, LOGINDATA_DIR
+from bot.utils.logger import Logger
+from bot.utils.enums import AuthResult
 
 Log = Logger()
 

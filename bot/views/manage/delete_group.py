@@ -2,7 +2,7 @@ import discord
 
 from typing import Dict, Any
 
-from modules.db import GroupsDB
+from bot.modules.db import GroupsDB
 
 class DeleteGroupView(discord.ui.View):
     def __init__(self, groups: Dict[str, Any]):

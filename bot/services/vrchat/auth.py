@@ -6,22 +6,14 @@ from vrchatapi.exceptions import UnauthorizedException
 # import
 import asyncio
 
-# from import
-from enum import Enum
-
 # local import
-from store import Store
+from bot.services.vrchat.store import Store
 
 # utils
-from utils.logger import Logger
+from bot.utils.logger import Logger
+from bot.utils.enums import AuthResult
 
 Log = Logger()
-
-class AuthResult(Enum):
-    SUCCESS = "Success"
-    EMAIL_REQUIRED = "EmailRequired"
-    TOTP_REQUIRED = "OTPRequired"
-    FAILED = "Failed"
 
 class Auth:
     def __init__(self, username: str, password: str):

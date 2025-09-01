@@ -1,9 +1,30 @@
 import discord
 
+import os
+import json
+
 from typing import Dict, Any
 
-from modules.db import GroupsDB
-from modules.selected import SelectedStore
+from bot.utils.core import DATA_DIR
+from bot.utils.logger import Logger
+
+from bot.modules.db import GroupsDB
+
+Log = Logger()
+
+class Store:
+    @classmethod
+    def save_selected(guild_id, group_id: str):
+        try:
+            dir_path = f"{DATA_DIR}/select/{guild_id}"
+            os.makedirs(dir_path, exist_ok=True)
+            file_path = f"{dir_path}/selected_group.json"
+            with open(file_path, "w", encoding="utf-8") as f:
+                json.dump({"group_id": group_id}, f, ensure_ascii=False, indent=2)
+            return True
+        except Exception as e:
+            Log.error(f"選択されたグループの保存失敗: {e}")
+            return False
 
 class SelectGroupView(discord.ui.View):
     def __init__(self, groups: Dict[str, Any]):
@@ -90,7 +111,7 @@ class SelectGroupSelect(discord.ui.Select):
                 result = await db.set_role_group(interaction.guild.id, self.role_id, group_id)
                 scope_text = f"ロール <@&{self.role_id}> で"
             else:
-                result = SelectedStore.save_selected(interaction.guild.id, group_id)
+                result = Store.save_selected(interaction.guild.id, group_id)
                 scope_text = "サーバー全体で"
             
             if result:

@@ -2,7 +2,7 @@ import json
 
 from enum import Enum
 
-from utils.core import CONFIG_DIR
+from bot.utils.core import CONFIG_DIR
 
 class BotMode(Enum):
     """Botの動作モードを定義する列挙型
@@ -26,3 +26,9 @@ def check_mode():
         return BotMode.GUILD
     elif data["mode"] == "user":
         return BotMode.USER
+
+class AuthResult(Enum):
+    SUCCESS = "Success"
+    EMAIL_REQUIRED = "EmailRequired"
+    TOTP_REQUIRED = "OTPRequired"
+    FAILED = "Failed"

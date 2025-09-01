@@ -2,7 +2,7 @@ import discord
 
 import json
 
-from utils.core import CONFIG_DIR
+from bot.utils.core import CONFIG_DIR
 
 class ConfigSelect(discord.ui.Select):
     def __init__(self):

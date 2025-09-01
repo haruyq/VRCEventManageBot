@@ -3,6 +3,8 @@ import sys
 import json
 import os
 
+from bot.utils.core import CONFIG_DIR
+
 class ColorFormatter(logging.Formatter):
     COLORS = {
         logging.DEBUG: "\033[90m",   # グレー
@@ -19,7 +21,6 @@ class ColorFormatter(logging.Formatter):
         return super().format(record)
 
 cwd = os.getcwd()
-CONFIG_DIR = f"{cwd}/bot/configs"
 
 def set_Loglevel(level: str, logger: logging.Logger):
     if level == "DEBUG":

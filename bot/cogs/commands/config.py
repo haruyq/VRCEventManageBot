@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 
-from views.config_view import ConfigSelect
+from bot.views.config_view import ConfigSelect
 
 class ConfigCommand(commands.Cog):
     def __init__(self, bot: commands.Bot):

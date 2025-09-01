@@ -1,19 +1,17 @@
-import discord
-
 from vrchatapi.api import authentication_api
 
-import os
+import discord
+
 import aiofiles.os
 
-from utils.logger import Logger
+from bot.utils.logger import Logger
+from bot.utils.core import LOGINDATA_DIR
 
-from views.twofa_view import EmailTwoFAButton, TOTPTwoFAButton
+from bot.views.twofa_view import EmailTwoFAButton, TOTPTwoFAButton
 
-from services.vrchat.auth import Auth, AuthResult
+from bot.services.vrchat.auth import Auth, AuthResult
 
 Log = Logger()
-cwd = os.getcwd()
-LOGINDATA_DIR = f"{cwd}/logins"
 
 class LoginModal(discord.ui.Modal, title="ログイン"):
     def __init__(self):

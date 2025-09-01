@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 
-from views.login_view import LoginModal
+from bot.views.login_view import LoginModal
 
 class LoginCommand(commands.Cog):
     def __init__(self, bot: commands.Bot):

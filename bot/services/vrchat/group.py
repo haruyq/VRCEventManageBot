@@ -5,10 +5,10 @@ from vrchatapi.exceptions import ApiException
 from vrchatapi.models.group import Group as VRChatGroup
 
 # modules
-from modules.db import UserGroupsDB
+from bot.modules.db import UserGroupsDB
 
 # utils
-from utils.logger import Logger
+from bot.utils.logger import Logger
 
 Log = Logger()
 

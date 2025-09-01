@@ -3,15 +3,12 @@ from discord.ext import commands
 from discord import app_commands
 
 import aiofiles.os
-import os
 import json
 
-from views.manage_view import ManageView
-from modules.enums import check_mode, BotMode
+from bot.views.manage.manage_view import ManageView
 
-cwd = os.getcwd()
-CONFIG_DIR = f"{cwd}/bot/configs"
-LOGINDATA_DIR = f"{cwd}/bot/logins"
+from bot.utils.core import CONFIG_DIR, LOGINDATA_DIR
+from bot.utils.enums import check_mode, BotMode
 
 class ManageCommand(commands.Cog):
     def __init__(self, bot: commands.Bot):
