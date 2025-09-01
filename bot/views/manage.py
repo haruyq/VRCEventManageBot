@@ -68,7 +68,6 @@ class AddGroupModal(discord.ui.Modal, title="グループ追加"):
         db = GroupsDB()
         try:
             groups = await db.get_groups(interaction.guild.id)
-            Log.info(f"Existing groups: {groups}")
             if any(group.get("id") == group_id for group in groups.values()):
                 embed = discord.Embed(description="このグループは既に追加されています。", color=discord.Colour.red())
                 await interaction.followup.send(embed=embed, ephemeral=True)
@@ -76,7 +75,6 @@ class AddGroupModal(discord.ui.Modal, title="グループ追加"):
                         
             resp_raw = await grp.fetch(group_id)
             resp: dict = filter(dict(resp_raw))
-            Log.info(f"Fetched group data: {resp}")
             
             check = await grp.validate_user(group_id)
             if check:

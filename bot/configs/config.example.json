@@ -2,5 +2,6 @@
     "token": "YOUR_BOT_TOKEN",
     "loglevel": "INFO",
     "secret": "",
-    "mode": "guild"
+    "mode": "guild",
+    "owner_id": 0
 }
