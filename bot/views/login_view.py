@@ -5,13 +5,15 @@ from vrchatapi.api import authentication_api
 import os
 import aiofiles.os
 
-from modules.logger import Logger
-from modules.vrchat import Auth, AuthResult
-from views.twofa import EmailTwoFAButton, TOTPTwoFAButton
+from utils.logger import Logger
+
+from views.twofa_view import EmailTwoFAButton, TOTPTwoFAButton
+
+from services.vrchat.auth import Auth, AuthResult
 
 Log = Logger()
 cwd = os.getcwd()
-LOGINDATA_DIR = f"{cwd}/bot/logins"
+LOGINDATA_DIR = f"{cwd}/logins"
 
 class LoginModal(discord.ui.Modal, title="ログイン"):
     def __init__(self):

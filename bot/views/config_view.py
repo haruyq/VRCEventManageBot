@@ -1,9 +1,8 @@
 import discord
-import json
-import os
 
-cwd = os.getcwd()
-CONFIG_DIR = f"{cwd}/bot/configs"
+import json
+
+from utils.core import CONFIG_DIR
 
 class ConfigSelect(discord.ui.Select):
     def __init__(self):

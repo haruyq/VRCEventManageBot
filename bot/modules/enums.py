@@ -1,5 +1,8 @@
 import json
+
 from enum import Enum
+
+from utils.core import CONFIG_DIR
 
 class BotMode(Enum):
     """Botの動作モードを定義する列挙型
@@ -12,11 +15,11 @@ class BotMode(Enum):
     USER =  "user"
 
 def check_mode():
-    with open("bot/configs/config.json", "r", encoding="utf-8") as f:
+    with open(f"{CONFIG_DIR}/config.json", "r", encoding="utf-8") as f:
         data = json.load(f)
     if data.get("mode") not in ["guild", "user"]:
         data["mode"] = "guild"
-        with open("bot/configs/config.json", "w", encoding="utf-8") as f:
+        with open(f"{CONFIG_DIR}/config.json", "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
     
     if data["mode"] == "guild":

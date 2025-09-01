@@ -1,31 +1,33 @@
 import aiosqlite
 import os
 import json
+
 from typing import Dict, List, Optional, Any
-from modules.logger import Logger
+
+from utils.logger import Logger
 
 Log = Logger()
 cwd = os.getcwd()
-DB_PATH = f"{cwd}/bot/db"
-GROUPS_DB = f"{DB_PATH}/groups.db"
-USER_GROUPS_DB = f"{DB_PATH}/user_groups.db"
+DATA_PATH = f"{cwd}/data"
+GROUPS_DB = f"{DATA_PATH}/groups.db"
+USER_GROUPS_DB = f"{DATA_PATH}/user_groups.db"
 
 def filter(raw_data: Dict[str, Any]) -> Dict[str, Any]:
     Log.debug(f"Raw group data: {raw_data}")
     return {
         "id": raw_data.get("id"),
         "name": raw_data.get("name"),
-        "shortCode": raw_data.get("shortCode"),
+        "short_code": raw_data.get("short_code"),
         "discriminator": raw_data.get("discriminator"),
         "description": raw_data.get("description"),
-        "iconUrl": raw_data.get("iconUrl"),
-        "bannerUrl": raw_data.get("bannerUrl"),
-        "ownerId": raw_data.get("ownerId"),
+        "icon_url": raw_data.get("icon_url"),
+        "banner_url": raw_data.get("banner_url"),
+        "owner_id": raw_data.get("owner_id"),
     }
 
 class GroupsDB:
     def __init__(self):
-        os.makedirs(DB_PATH, exist_ok=True)
+        os.makedirs(DATA_PATH, exist_ok=True)
     
     async def init_db(self) -> None:
         async with aiosqlite.connect(GROUPS_DB) as db:
@@ -33,6 +35,16 @@ class GroupsDB:
                 CREATE TABLE IF NOT EXISTS groups (
                     guild_id TEXT PRIMARY KEY,
                     groups_data TEXT NOT NULL
+                )
+            ''')
+            await db.execute('''
+                CREATE TABLE IF NOT EXISTS role_groups (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    guild_id INTEGER NOT NULL,
+                    role_id INTEGER NOT NULL,
+                    group_id TEXT NOT NULL,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    UNIQUE(guild_id, role_id)
                 )
             ''')
             await db.commit()
@@ -99,10 +111,46 @@ class GroupsDB:
             )
             await db.commit()
 
+    async def get_role_groups(self, guild_id: int) -> Dict[str, str]:
+        try:
+            query = "SELECT role_id, group_id FROM role_groups WHERE guild_id = ?"
+            async with aiosqlite.connect(GROUPS_DB) as db:
+                async with db.execute(query, (guild_id,)) as cursor:
+                    rows = await cursor.fetchall()
+                    return {str(row[0]): row[1] for row in rows}
+        except Exception as e:
+            Log.error(f"Failed to get role groups: {e}")
+            return {}
+
+    async def set_role_group(self, guild_id: int, role_id: str, group_id: str) -> bool:
+        try:
+            query = """
+            INSERT OR REPLACE INTO role_groups (guild_id, role_id, group_id) 
+            VALUES (?, ?, ?)
+            """
+            async with aiosqlite.connect(GROUPS_DB) as db:
+                await db.execute(query, (guild_id, int(role_id), group_id))
+                await db.commit()
+                return True
+        except Exception as e:
+            Log.error(f"Failed to set role group: {e}")
+            return False
+
+    async def remove_role_group(self, guild_id: int, role_id: str) -> bool:
+        try:
+            query = "DELETE FROM role_groups WHERE guild_id = ? AND role_id = ?"
+            async with aiosqlite.connect(GROUPS_DB) as db:
+                await db.execute(query, (guild_id, int(role_id)))
+                await db.commit()
+                return True
+        except Exception as e:
+            Log.error(f"Failed to remove role group: {e}")
+            return False
+
 
 class UserGroupsDB:
     def __init__(self):
-        os.makedirs(DB_PATH, exist_ok=True)
+        os.makedirs(DATA_PATH, exist_ok=True)
     
     async def init_db(self) -> None:
         async with aiosqlite.connect(USER_GROUPS_DB) as db:

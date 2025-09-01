@@ -6,8 +6,8 @@ import aiofiles.os
 import os
 import json
 
-from views.manage import ManageView
-from modules.config import check_mode, BotMode
+from views.manage_view import ManageView
+from modules.enums import check_mode, BotMode
 
 cwd = os.getcwd()
 CONFIG_DIR = f"{cwd}/bot/configs"

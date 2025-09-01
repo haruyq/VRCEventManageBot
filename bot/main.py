@@ -6,13 +6,13 @@ import os
 import aiofiles.os
 from cryptography.fernet import Fernet
 
-from modules.logger import Logger
 from modules.db import GroupsDB, UserGroupsDB
+
+from utils.logger import Logger
+from utils.core import CONFIG_DIR
 
 Log = Logger()
 cwd = os.getcwd()
-
-CONFIG_DIR = f"{cwd}/bot/configs"
 
 class Bot(commands.Bot):
     def __init__(self):
@@ -23,7 +23,7 @@ class Bot(commands.Bot):
         await GroupsDB().init_db()
         await UserGroupsDB().init_db()
         
-        for folder in ("commands", "events"):
+        for folder in ("cogs/commands", "cogs/events"):
             for filename in await aiofiles.os.listdir(f"{cwd}/bot/{folder}"):
                 if not filename.endswith(".py"):
                     continue
@@ -36,12 +36,13 @@ class Bot(commands.Bot):
 
 bot = Bot()
 
-with open(f"{CONFIG_DIR}/config.json", "r", encoding="utf-8") as f:
+config_path = f"{CONFIG_DIR}/config.json"
+with open(config_path, "r+", encoding="utf-8") as f:
     data = json.load(f)
-
-if not data.get("secret"):
-    data["secret"] = Fernet.generate_key().decode()
-    with open(f"{CONFIG_DIR}/config.json", "w", encoding="utf-8") as f:
+    if not data.get("secret"):
+        data["secret"] = Fernet.generate_key().decode()
+        f.seek(0)
         json.dump(data, f, ensure_ascii=False, indent=4)
+        f.truncate()
 
 bot.run(data["token"], log_handler=None)

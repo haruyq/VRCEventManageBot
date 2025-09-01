@@ -1,6 +1,6 @@
 import discord
 
-from modules.vrchat import TwoFA
+from services.vrchat.twofa import TwoFA
 
 class EmailTwoFAModal(discord.ui.Modal, title="認証コード"):
     def __init__(self, username: str, password: str, api_client):
