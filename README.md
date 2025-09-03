@@ -1,6 +1,6 @@
 # VRChatEventsManager-Bot
 
-このプロジェクトはdiscord内からVRChat内で行われるイベントを管理するためのものです。
+このプロジェクトはdiscord内からVRChat内で行われるイベントを管理するためのものです。  
 ※C#のプロジェクトではありません。主要な言語はPythonです。
 
 ## Features (ToDo)
